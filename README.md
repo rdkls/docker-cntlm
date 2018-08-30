@@ -19,7 +19,7 @@ Simple usage is
 This will create an unathenticated proxy on the host running at 3128
 
 By default cntlm will run with NoProxy localhost, 127.0.0.*, 10.*, 192.168.*, *.$2
-If the env var NOPROXY is set, it gets added to this list
+If the env var NO_PROXY is set, it gets added to this list
 
 ## NTLMv2 Hash
 
