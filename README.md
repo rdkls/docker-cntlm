@@ -23,16 +23,40 @@ This will create an unathenticated proxy on the host running at 3128
 By default cntlm will run with NoProxy localhost, 127.0.0.*, 10.*, 192.168.*, *.$2
 If the env var NO_PROXY is set, it gets added to this list
 
-## NTLMv2 Hash
+## Generate NTLMv2 Hash
 
 By default I've only set this up to accept Hashed passwords. cntlm supports actual passwords, but 
-that is left up to you to figure out. A script exists in the images that will help you get the hash
+that is left up to you to figure out.
+
+### With get_ntlm.sh
+
+A script exists in the images that will help you get the hash
 
 `docker run --rm -t -i --entrypoint="get_ntlm.sh" rdkls/cntlm user.name@domain upstream_proxy:port`
 
 This will ask you for your password and attempt to use the upstream proxy to get to docker.io. If it
 succeeds it will print a PassNTLMv2 line, use this hash above when launching the container.
 
+### With cntlm directly
+
+```
+~/w/docker-cntlm   +  ***docker run --rm -ti --entrypoint /usr/sbin/cntlm rdkls/cntlm -u MY_USERNAME -d MY_DOMAIN -H***
+cntlm: Starting cntlm version 0.92.3 for LITTLE endian
+
+cntlm: Proxy listening on 127.0.0.1:3128
+
+cntlm: Workstation name used: 1ed7f958a5d0
+
+cntlm: Using following NTLM hashes: NTLMv2(1) NT(0) LM(0)
+
+Password: ****[You get prompted for this]******
+PassLM          EABA7A3C3633DE64015F4738968A4B57
+PassNT          EABA7A3C3633DE64015F4738968A4B57
+PassNTLMv2      EABA7A3C3633DE64015F4738968A4B57    # Only for user 'MY_USER', domain 'MY_DOMAIN'
+cntlm: Terminating with 0 active threads
+```
+
+You want the 'PassNTLMv2' hash
 
 ## Contributing
 
